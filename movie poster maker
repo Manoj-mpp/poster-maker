@@ -1,0 +1,17 @@
+!pip install requests pillow IPython
+import requests
+from IPython.display import Image, display
+
+def show_movie_poster(movie_name):
+    api_key = "thewdb"
+    url = f"http://www.omdbapi.com/?t={movie_name}&apikey={api_key}"
+    response = requests.get(url)
+    data = response.json()
+    if data.get("Response") == "True" and data.get("Poster") != "N/A":
+        print(f"{data['Title']} ({data['Year']})")
+        display(Image(url=data["Poster"]))
+    else:
+        print(f"Poster not found for '{movie_name}'")
+
+movie_name = input("Enter movie name: ")
+show_movie_poster(movie_name)
